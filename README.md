@@ -1,6 +1,6 @@
 # ctypesgen2
 
-A wrapper tool around **@trolldbois**' [ctypeslib](https://github.com/trolldbois/ctypeslib) ([ctypeslib2](https://pypi.python.org/pypi/ctypeslib2/) on PyPi) for auto generating ctypes Python bindings of C source files, using libclang. 
+A wrapper tool around **@trolldbois**' [ctypeslib](https://github.com/trolldbois/ctypeslib) ([ctypeslib2](https://pypi.python.org/pypi/ctypeslib2/) on PyPi) for auto generating ctypes Python bindings of C source files, headers, or shared objects, using libclang. 
 
 This tool is comparable to the [clang2py](https://github.com/trolldbois/ctypeslib/blob/master/ctypeslib/clang2py.py) tool provided by ctypeslib2, but with a slightly different command line interface. In particular the libclang path is exposed as an argument. This is useful when generating python bindings as a build step of a C or C++ library, particularly on Windows where the PATH is searched for dlls like libclang. Build tools like CMake seem to have trouble modifying the PATH for some reason, unlike LD_LIBRARY_PATH on mac or linux which can be adjusted without issues.
 
