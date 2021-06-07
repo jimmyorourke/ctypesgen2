@@ -2,12 +2,14 @@
 # Requires ${PYTHON_COMMAND} to be set to an appropriate invocation of the python interpreter.
 # E.g. if using CMake's FindPython, then ${Python_EXECUTABLE}, if using pipenv then "pipenv run python" or similar, etc.
 
+set(CTYPESGEN2_DIR "${CMAKE_CURRENT_LIST_DIR}")
+
 # Generate Python bindings from C header(s) and corresponding shared library.
 # Requires ctypeslib2, llvm clang
 function(ctypesgen2_generate_python_bindings INPUT_LIBRARY_TARGET INPUT_LIBRARY_FILE OUTPUT_PY INPUT_HEADERS INPUT_FLAGS)
     add_custom_command(
         OUTPUT ${OUTPUT_PY}
-        COMMAND ${PYTHON_COMMAND} ${CMAKE_CURRENT_SOURCE_DIR}/generate_ctypes.py
+        COMMAND ${PYTHON_COMMAND} ${CTYPESGEN2_DIR}/generate_ctypes.py
         --libclang-directory ${CLANG_SHARED_OBJECT_DIRECTORY}
         --libraries ${INPUT_LIBRARY_FILE}
         --flags="${FLAGS}"
@@ -15,7 +17,7 @@ function(ctypesgen2_generate_python_bindings INPUT_LIBRARY_TARGET INPUT_LIBRARY_
         --output ${OUTPUT_PY}
         WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
         COMMENT "Generating Python ctypes bindings: ${OUTPUT_PY}"
-        DEPENDS ${INPUT_HEADERS} ${INPUT_LIBRARY_TARGET} ${CMAKE_CURRENT_SOURCE_DIR}/generate_ctypes.py
+        DEPENDS ${INPUT_HEADERS} ${INPUT_LIBRARY_TARGET} ${CTYPESGEN2_DIR}/generate_ctypes.py
         USES_TERMINAL
     )
     set_source_files_properties(${OUTPUT_PY} PROPERTIES GENERATED TRUE)
@@ -25,6 +27,6 @@ function(ctypesgen2_generate_python_bindings INPUT_LIBRARY_TARGET INPUT_LIBRARY_
         DEPENDS
             ${OUTPUT_PY}
             ${INPUT_LIBRARY_TARGET}
-            ${CMAKE_CURRENT_SOURCE_DIR}/generate_ctypes.py
+            ${CTYPESGEN2_DIR}/generate_ctypes.py
     )
 endfunction()
